@@ -1,0 +1,123 @@
+<resources>
+    <string name="app_name">AOM_DIALS_APP</string>
+    <string name="statistics">Statistics</string>
+    <string name="viewOrder">View orders</string>
+    <string name="creating_a_new_order">Creating a new order:</string>
+    <string name="model_number">Model Number:</string>
+    <string name="material">Material:</string>
+    <string name="order_date">Order Date:</string>
+    <string name="base_color">Base Color:</string>
+    <string name="party_name">Party Name</string>
+    <string name="extra_quantity">Extra Quantity %:</string>
+    <string name="finish">Finish:</string>
+    <string name="generate">Generate</string>
+    <string name="department_wise_statistics">Department wise statistics:</string>
+    <string name="result">Please select an option</string>
+    <string name="choose_image">Choose Image</string>
+    <string name="select">Select</string>
+    <string name="extra_features">Extra features</string>
+    <string name="my_dashboard">My Dashboard</string>
+    <string name="create_new_order">Create New order</string>
+    <string name="view_orders">View Orders</string>
+    <string name="order_statistics">Order Statistics</string>
+    <string name="hello">Hello!</string>
+    <string name="home">Home</string>
+    <string name="logout">Logout</string>
+    <string name="open">Open</string>
+    <string name="close">Close</string>
+    <string name="create_new_order_nav_drawer">Create New Order</string>
+    <string name="view_orders_nav_drawer">View Orders</string>
+    <string name="order_statistics_nav_drawer">Order Statistics</string>
+    <string name="welcome_back">Welcome Back!</string>
+    <string name="name">Name</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="log_in">Log In</string>
+    <string name="i_agree_all_the_terms_and_conditions">I agree all the terms and conditions</string>
+    <string name="login_button">Login</string>
+    <string name="already_not_registered_sign_up">Already not registered?|Sign Up</string>
+    <string name="user_type_admin_manager">User Type (admin/manager)</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="sign_up_button_text">Sign Up</string>
+    <string name="choose_date">Choose Date</string>
+    <string name="extra_features_hint_text">Extra Features</string>
+    <string name="size">Size</string>
+    <string name="pkgqty">pkgQty</string>
+    <string name="number_type">Number type</string>
+    <string name="other_color_index">Other color Index</string>
+    <string name="order_name">Order Name</string>
+    <string name="base_features">Base Features:</string>
+    <string name="department">Department:</string>
+    <string name="base_features_hint_text">Base Features</string>
+    <string name="total_qty_input">Total qty input</string>
+    <string name="show_orders">SHOW ORDERS</string>
+    <string name="order_name_card_text">Order Name:</string>
+    <string name="order_id">Order Id:</string>
+    <string name="party_name_card_text">Party Name:</string>
+    <string name="order_date_card_text">Order Date:</string>
+    <string name="model_number_card_text">Model Number:</string>
+    <string name="base_features_card_text">Base Features:</string>
+    <string name="extra_features_card_text">Extra Features:</string>
+    <string name="mechanical_features">Mechanical Features:</string>
+    <string name="other_color_index_card_text">Other Color Index:</string>
+    <string name="material_card_text">Material:</string>
+    <string name="number_type_card_text">Number Type:</string>
+    <string name="extra_quantity_card_text">Extra Quantity:</string>
+    <string name="department_name_card_text">Department Name:</string>
+    <string name="pkg_quantity">Pkg Quantity:</string>
+    <string name="size_card_text">Size:</string>
+    <string name="gp">GP:</string>
+    <string name="np">NP:</string>
+    <string name="copper">Copper:</string>
+    <string name="Party_name">Party Name:</string>
+    <string name="Extra_quantity">Extra Quantity % :</string>
+    <string name="Extra_features">Extra Features:</string>
+    <string name="Size">Size:</string>
+    <string name="Pkg_quantity">Pkg Quantity:</string>
+    <string name="Number_type">Number Type:</string>
+    <string name="Other_color_index">Other Color Index:</string>
+    <string name="Order_name">Order Name:</string>
+    <string name="mech_features">Mechanical Features</string>
+    <string name="Mechanical_features">Mechanical Features:</string>
+    <string name="Copper">Copper:</string>
+    <string name="NP">NP:</string>
+    <string name="gP">GP</string>
+    <string name="Gp">GP:</string>
+    <string name="updating_the_order">Updating the order:</string>
+    <string name="update">UPDATE</string>
+    <string name="welcome">WELCOME!</string>
+    <string name="admin">admin</string>
+    <string name="manager">manager</string>
+
+
+    <string-array name="material_array">
+        <item>Brass1</item>
+        <item>Copper</item>
+        <item>Brass2</item>
+        <item>Alloy</item>
+    </string-array>
+
+    <string-array name="statistics_array">
+        <item>Mechanical</item>
+        <item>Electroplating</item>
+        <item>Lacquer</item>
+        <item>Screen Printing</item>
+        <item>Digital Printing</item>
+        <item>Assenbly 1</item>
+        <item>Assembly 2</item>
+        <item>Dispatch</item>
+    </string-array>
+
+    <string-array name="dept_array">
+        <item>Mechanical</item>
+        <item>Electroplating</item>
+        <item>Lacquer</item>
+        <item>Screen Printing</item>
+        <item>Digital Printing</item>
+        <item>Assenbly 1</item>
+        <item>Assembly 2</item>
+        <item>Dispatch</item>
+    </string-array>
+
+</resources>
