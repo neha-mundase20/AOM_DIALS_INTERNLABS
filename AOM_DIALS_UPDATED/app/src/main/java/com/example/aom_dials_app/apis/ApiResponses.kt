@@ -35,7 +35,7 @@ data class signupRequest(
     val password : String,
     val password_confirmation : String,
     val userType:String,
-    val tc:String
+    val tc:Boolean
 )
 
 data class signupResponse(
@@ -113,6 +113,15 @@ data class updateOrderResponse(
 data class orderDeletionResponse(
     val status : String,
     val message : String
+)
+
+data class loggedUser(
+    val _id : String,
+    val name : String,
+    val email : String,
+    val userType : String,
+    val tc : Boolean,
+    val __v: Int
 )
 
 

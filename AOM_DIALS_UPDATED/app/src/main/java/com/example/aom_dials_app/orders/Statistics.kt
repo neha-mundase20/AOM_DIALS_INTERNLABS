@@ -1,5 +1,6 @@
 package com.example.aom_dials_app.orders
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -12,6 +13,7 @@ import com.example.aom_dials_app.apis.DataInterface
 import com.example.aom_dials_app.R
 import com.example.aom_dials_app.auth.SessionManager
 import com.example.aom_dials_app.apis.orderFormat
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -28,6 +30,36 @@ class Statistics : AppCompatActivity() {
         setContentView(R.layout.activity_statistics)
 
         StatisticsDropdown()
+
+        val bottomNavigationView=findViewById<BottomNavigationView>(R.id.bottomNavigationView)
+
+        val menu = bottomNavigationView.menu
+        val MenuItem = menu.getItem(1)
+        MenuItem.setChecked(true)
+
+        bottomNavigationView.setOnNavigationItemSelectedListener {
+            when(it.itemId){
+                R.id.ic_home -> {
+                    startActivity(Intent(this@Statistics,Home_Activity::class.java))
+                }
+                R.id.ic_orderStats -> {
+                    startActivity(Intent(this@Statistics,Statistics::class.java))
+                }
+                R.id.ic_viewOrders -> {
+                    startActivity(Intent(this@Statistics,ViewOrders::class.java))
+                }
+                R.id.ic_Profile -> {
+                    startActivity(Intent(this@Statistics, user_Profile::class.java))
+                }
+            }
+            true
+        }
+    }
+
+    @Deprecated("Deprecated in Java")
+    override fun onBackPressed() {
+        val intent = Intent(this@Statistics, Home_Activity::class.java)
+        startActivity(intent)
     }
 
     fun StatisticsDropdown() {

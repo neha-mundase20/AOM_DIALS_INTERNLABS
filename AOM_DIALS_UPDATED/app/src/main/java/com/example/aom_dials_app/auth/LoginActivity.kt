@@ -30,76 +30,90 @@ class LoginActivity : AppCompatActivity() {
 
     }
 
+    @Deprecated("Deprecated in Java", ReplaceWith("finishAffinity()"))
+    override fun onBackPressed() {
+        finishAffinity()
+    }
+
     fun onSignupTextClicked(view: View) {
         val intent = Intent(this@LoginActivity, SignupActivity::class.java)
         startActivity(intent)
     }
 
     fun onLoginButtonClicked(view: View) {
+        try {
+            val progressBar = findViewById<ProgressBar>(R.id.progressBarlogin)
 
-        val progressBar = findViewById<ProgressBar>(R.id.progressBarlogin)
+            val email=findViewById<EditText>(R.id.EmailAddress).editableText.toString()
+            val password=findViewById<EditText>(R.id.Password).editableText.toString()
 
-        progressBar.visibility = View.VISIBLE
+            if(email.length==0 || password.length==0){
+                Toast.makeText(this@LoginActivity,"Please fill all the fields!",Toast.LENGTH_SHORT).show()
+            }
 
-        val email=findViewById<EditText>(R.id.EmailAddress).editableText.toString()
-        val password=findViewById<EditText>(R.id.Password).editableText.toString()
+            else{
+                progressBar.visibility = View.VISIBLE
 
-        sessionManager = SessionManager(this)
+                sessionManager = SessionManager(this)
 
-        dataInstance = DataInterface()
+                dataInstance = DataInterface()
 
-        //Log messages for verifying the retrofit call
+                //Log messages for verifying the retrofit call
 
-        val loginRequest = loginRequest(email,password)
-        Log.d("Login", "loginRequest: $loginRequest")
+                val loginRequest = loginRequest(email,password)
+                Log.d("Login", "loginRequest: $loginRequest")
 
-        val apiService = dataInstance.getApiService()
-        Log.d("Login", "ApiService: $apiService")
+                val apiService = dataInstance.getApiService()
+                Log.d("Login", "ApiService: $apiService")
 
-        val login1 = apiService.loginUser(loginRequest)
-        Log.d("Login", "login: $login1")
+                val login1 = apiService.loginUser(loginRequest)
+                Log.d("Login", "login: $login1")
 
-        val login = dataInstance.getApiService().loginUser(loginRequest(email,password))
+                val login = dataInstance.getApiService().loginUser(loginRequest(email,password))
 
-        login.enqueue(object : retrofit2.Callback<loginResponse> {
-            override fun onResponse(
-                call: Call<loginResponse>,
-                response: Response<loginResponse>,
-            ) {
-                val Response = response.body()
-                if (Response != null) {
-                    if (Response.status == "success") {
+                login.enqueue(object : retrofit2.Callback<loginResponse> {
+                    override fun onResponse(
+                        call: Call<loginResponse>,
+                        response: Response<loginResponse>,
+                    ) {
+                        val Response = response.body()
+                        if (Response != null) {
+                            if (Response.status == "success") {
 
-                        Log.d("AOM DIALS","Login Successfull")
+                                Log.d("AOM DIALS","Login Successfull")
 
-                        sessionManager.saveAuthToken(Response.token)
+                                sessionManager.saveAuthToken(Response.token)
+
+                                progressBar.visibility = View.GONE
+
+                                Toast.makeText(this@LoginActivity,Response.message, Toast.LENGTH_SHORT).show()
+
+                                val intent = Intent(this@LoginActivity, Home_Activity::class.java)
+
+                                startActivity(intent)
+                            }
+                            else {
+                                Log.d("AOM DIALS","Login Failed")
+
+                                progressBar.visibility = View.GONE
+
+                                Toast.makeText(this@LoginActivity,Response.message, Toast.LENGTH_SHORT).show()
+                            }
+                        }
+                    }
+
+                    override fun onFailure(call: Call<loginResponse>, t: Throwable) {
 
                         progressBar.visibility = View.GONE
 
-                        Toast.makeText(this@LoginActivity,Response.message, Toast.LENGTH_SHORT).show()
-
-                        val intent = Intent(this@LoginActivity, Home_Activity::class.java)
-
-                        startActivity(intent)
+                        Toast.makeText(this@LoginActivity,"Error! Please try again", Toast.LENGTH_SHORT).show()
                     }
-                    else {
-                        Log.d("AOM DIALS","Login Failed")
 
-                        progressBar.visibility = View.GONE
-
-                        Toast.makeText(this@LoginActivity,Response.message, Toast.LENGTH_SHORT).show()
-                    }
-                }
+                })
             }
-
-            override fun onFailure(call: Call<loginResponse>, t: Throwable) {
-
-                progressBar.visibility = View.GONE
-
-                Toast.makeText(this@LoginActivity,"Error! Please try again", Toast.LENGTH_SHORT).show()
-            }
-
-        })
+        }catch (e : Exception){
+            Toast.makeText(this@LoginActivity,"Please fill all the fields!",Toast.LENGTH_SHORT).show()
+        }
 
 
     }

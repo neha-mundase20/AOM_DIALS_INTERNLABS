@@ -79,7 +79,7 @@ class RecyclerViewDataAdapter(private val recyclerView: RecyclerView, val contex
 
         holder.orderId.text= currentItem._id
 
-        holder.orderDate.text= currentItem.orderDate
+        holder.orderDate.text= currentItem.orderDate.substringBefore("T")
 
         holder.otherclrIndex.text= currentItem.otherColorIndex.toString()
 

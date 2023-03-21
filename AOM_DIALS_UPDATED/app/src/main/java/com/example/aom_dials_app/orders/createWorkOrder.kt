@@ -6,18 +6,12 @@ import android.icu.text.SimpleDateFormat
 import android.icu.util.Calendar
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import com.example.aom_dials_app.*
-import com.example.aom_dials_app.apis.DataInterface
-import com.example.aom_dials_app.apis.createOrderResponse
-import com.example.aom_dials_app.apis.newOrderCreationRequest
-import com.example.aom_dials_app.auth.SessionManager
-import retrofit2.Call
-import retrofit2.Response
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import java.util.*
 
 
@@ -25,15 +19,12 @@ class createWorkOrder : AppCompatActivity() {
 
     private lateinit var id1: Button
     private lateinit var id2:TextView
-//    private lateinit var selectImageButton: Button
-//    private lateinit var selectedImage: ImageView
-    private lateinit var sessionManager: SessionManager
-
-    private lateinit var dataInstance : DataInterface
 
     private lateinit var department: String
 
     private lateinit var material: String
+//    private lateinit var selectImageButton: Button
+//    private lateinit var selectedImage: ImageView
 
 //    companion object{
 //        const val IMAGE_REQUEST_CODE = 100
@@ -47,12 +38,32 @@ class createWorkOrder : AppCompatActivity() {
 
         Material_Dropdown()
         deptDropdown()
+        baseFeatureDropdown()
+        extraFeatureDropdown()
 //        selectImageButton = findViewById(R.id.selectButton)
 //        selectedImage=findViewById(R.id.selectedImagePreview)
 //
 //        selectImageButton.setOnClickListener{
 //            imagePicker()
 //        }
+        val bottomNavigationView=findViewById<BottomNavigationView>(R.id.bottomNavigationView)
+        bottomNavigationView.setOnNavigationItemSelectedListener {
+            when(it.itemId){
+                R.id.ic_home -> {
+                    startActivity(Intent(this@createWorkOrder,Home_Activity::class.java))
+                }
+                R.id.ic_orderStats -> {
+                    startActivity(Intent(this@createWorkOrder,Statistics::class.java))
+                }
+                R.id.ic_viewOrders -> {
+                    startActivity(Intent(this@createWorkOrder,ViewOrders::class.java))
+                }
+                R.id.ic_Profile -> {
+                    startActivity(Intent(this@createWorkOrder, user_Profile::class.java))
+                }
+            }
+            true
+        }
     }
 
     fun Material_Dropdown() {
@@ -76,6 +87,30 @@ class createWorkOrder : AppCompatActivity() {
         ArrayAdapter.createFromResource(
             this,
             R.array.dept_array,
+            android.R.layout.simple_spinner_item
+        ).also { adapter ->
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            spinner.adapter = adapter
+        }
+    }
+
+    fun baseFeatureDropdown(){
+        val spinner: Spinner = findViewById(R.id.baseFeaturesDropdown)
+        ArrayAdapter.createFromResource(
+            this,
+            R.array.base_feature_array,
+            android.R.layout.simple_spinner_item
+        ).also { adapter ->
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            spinner.adapter = adapter
+        }
+    }
+
+    fun extraFeatureDropdown(){
+        val spinner: Spinner = findViewById(R.id.extraFeaturesDropdown)
+        ArrayAdapter.createFromResource(
+            this,
+            R.array.extra_feature_array,
             android.R.layout.simple_spinner_item
         ).also { adapter ->
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
@@ -114,108 +149,6 @@ class createWorkOrder : AppCompatActivity() {
         id2.setText(sdf.format(calender.time))
     }
 
-    fun onGenerateButtonClicked(view: View) {
-        val progressBar = findViewById<ProgressBar>(R.id.createOrderProgressBar)
-
-        progressBar.visibility= View.VISIBLE
-
-        val modelNumber= findViewById<EditText>(R.id.modelInput).editableText.toString().toInt()
-        val Date = findViewById<View>(R.id.displayDate) as TextView
-        val orderDate = Date.text.toString()
-        val partyName=findViewById<EditText>(R.id.partyNameInput).editableText.toString()
-        val baseFeatures=findViewById<EditText>(R.id.basefeaturesInput).editableText.toString()
-        val extraQty=findViewById<EditText>(R.id.extraQtyText).editableText.toString().toInt()
-        val extraFeatures=findViewById<EditText>(R.id.extraFeaturesInput).editableText.toString()
-        val mechfeatures=findViewById<EditText>(R.id.mechfeaturesInput).editableText.toString()
-        val size=findViewById<EditText>(R.id.sizeInput).editableText.toString().toDouble()
-        val pkgQty=findViewById<EditText>(R.id.pkgQtyInput).editableText.toString().toInt()
-        val numberType=findViewById<EditText>(R.id.numberType).editableText.toString()
-        val otherColorIndex=findViewById<EditText>(R.id.otherColorIndex).editableText.toString().toInt()
-        val orderName=findViewById<EditText>(R.id.orderName).editableText.toString()
-        val copper=findViewById<EditText>(R.id.copper).editableText.toString().toInt()
-        val NP=findViewById<EditText>(R.id.NP).editableText.toString().toInt()
-        val GP=findViewById<EditText>(R.id.GP).editableText.toString().toInt()
-
-        val materialSpinner=findViewById<Spinner>(R.id.materialDropdown)
-        material = materialSpinner.getSelectedItem().toString()
-
-        //val material=materialSpinner.selectedItem.toString()
-
-        val deptSpinner=findViewById<Spinner>(R.id.deptDropdown)
-        department = deptSpinner.getSelectedItem().toString()
-
-        //val department=deptSpinner.selectedItem.toString()
-
-        sessionManager = SessionManager(this)
-
-        val token = sessionManager.fetchAuthToken()
-
-        Log.d("AOM DIALS", "Auth token fetched: $token")
-
-        dataInstance = DataInterface()
-
-        val order = dataInstance.getApiService().createOrder(token = "Bearer ${sessionManager.fetchAuthToken()}",
-            newOrderCreationRequest(GP,NP,copper,department,
-                extraQty,baseFeatures,extraFeatures,mechfeatures,material,
-                modelNumber,numberType,orderDate,orderName,otherColorIndex,partyName,pkgQty, size)
-        )
-
-        //Log messages for verifying the retrofit call
-
-        val orderRequest = newOrderCreationRequest(GP,NP,copper,department,extraQty,baseFeatures,extraFeatures,mechfeatures,material,
-            modelNumber,numberType,orderDate,orderName,otherColorIndex,partyName,pkgQty, size)
-        Log.d("createOrder", "createOrderRequest: $orderRequest")
-
-        val apiService = dataInstance.getApiService()
-        Log.d("createOrder", "ApiService: $apiService")
-
-        val orderReq = apiService.createOrder(token = "Bearer ${sessionManager.fetchAuthToken()}",orderRequest)
-        Log.d("createOrder", "$orderReq")
-
-        order.enqueue(object : retrofit2.Callback<createOrderResponse> {
-
-            override fun onResponse(
-                call: Call<createOrderResponse>,
-                response: Response<createOrderResponse>,
-            ) {
-                val Response = response.body()
-                if (Response != null) {
-                    if (Response.status == "Success") {
-
-                        progressBar.visibility = View.GONE
-
-                        Log.d("AOM DIALS", "Order created successfully!")
-
-                        Toast.makeText(this@createWorkOrder, Response.message, Toast.LENGTH_SHORT)
-                            .show()
-
-                        val intent = Intent(this@createWorkOrder, Home_Activity::class.java)
-
-                        startActivity(intent)
-                    } else {
-                        Log.d("AOM DIALS", "Order creation Failed!")
-
-                        progressBar.visibility = View.GONE
-
-                        Toast.makeText(this@createWorkOrder, Response.message, Toast.LENGTH_SHORT)
-                            .show()
-                    }
-                }
-            }
-
-            override fun onFailure(call: Call<createOrderResponse>, t: Throwable) {
-
-                progressBar.visibility = View.GONE
-
-                Toast.makeText(
-                    this@createWorkOrder,
-                    "Error! Please try again",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
-        })
-    }
-
 //    fun imagePicker() {
 //        val intent = Intent(Intent.ACTION_PICK)
 //        intent.type="image/*"
@@ -234,5 +167,49 @@ class createWorkOrder : AppCompatActivity() {
         val button = findViewById<Button>(R.id.chooseDateButton)
         button.setOnClickListener { datePickerDialog(it) }
     }
+
+
+fun onNextButtonClicked(view: View) {
+    try {
+    val modelNumber= findViewById<EditText>(R.id.modelInput).editableText.toString().toInt()
+    val Date = findViewById<View>(R.id.displayDate) as TextView
+    val orderDate = Date.text.toString()
+    val partyName=findViewById<EditText>(R.id.partyNameInput).editableText.toString()
+    val extraQty=findViewById<EditText>(R.id.extraQtyText).editableText.toString().toInt()
+
+    val extraFeaturesSpinner=findViewById<Spinner>(R.id.extraFeaturesDropdown)
+    val extraFeatures=extraFeaturesSpinner.getSelectedItem().toString()
+
+    val size=findViewById<EditText>(R.id.sizeInput).editableText.toString().toDouble()
+
+    val baseFeaturesSpinner=findViewById<Spinner>(R.id.baseFeaturesDropdown)
+    val baseFeatures=baseFeaturesSpinner.getSelectedItem().toString()
+
+    val materialSpinner=findViewById<Spinner>(R.id.materialDropdown)
+    material = materialSpinner.getSelectedItem().toString()
+
+    val deptSpinner=findViewById<Spinner>(R.id.deptDropdown)
+    department = deptSpinner.getSelectedItem().toString()
+
+            val bundle = Bundle()
+            bundle.putInt("modelNumber",modelNumber)
+            bundle.putString("orderDate",orderDate)
+            bundle.putString("partyName",partyName)
+            bundle.putString("baseFeatures",baseFeatures)
+            bundle.putInt("extraQty",extraQty)
+            bundle.putString("extraFeatures",extraFeatures)
+            bundle.putDouble("size",size)
+            bundle.putString("material",material)
+            bundle.putString("department",department)
+
+            val intent = Intent(this@createWorkOrder, creatingWorkOrder::class.java)
+            intent.putExtras(bundle)
+            startActivity(intent)
+
+    } catch (e: Exception) {
+        Toast.makeText(this@createWorkOrder, "Please fill all the fields!", Toast.LENGTH_SHORT).show()
+    }
+}
+
 
 }

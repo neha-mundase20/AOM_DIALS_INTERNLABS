@@ -1,5 +1,6 @@
 package com.example.aom_dials_app.orders
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -9,6 +10,7 @@ import com.example.aom_dials_app.apis.DataInterface
 import com.example.aom_dials_app.R
 import com.example.aom_dials_app.auth.SessionManager
 import com.example.aom_dials_app.apis.orderFormat
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -22,6 +24,30 @@ class ViewOrders : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_view_orders)
+
+        val bottomNavigationView=findViewById<BottomNavigationView>(R.id.bottomNavigationView)
+
+        val menu = bottomNavigationView.menu
+        val MenuItem = menu.getItem(2)
+        MenuItem.setChecked(true)
+
+        bottomNavigationView.setOnNavigationItemSelectedListener {
+            when(it.itemId){
+                R.id.ic_home -> {
+                    startActivity(Intent(this@ViewOrders,Home_Activity::class.java))
+                }
+                R.id.ic_orderStats -> {
+                    startActivity(Intent(this@ViewOrders,Statistics::class.java))
+                }
+                R.id.ic_viewOrders -> {
+                    startActivity(Intent(this@ViewOrders,ViewOrders::class.java))
+                }
+                R.id.ic_Profile -> {
+                    startActivity(Intent(this@ViewOrders, user_Profile::class.java))
+                }
+            }
+            true
+        }
 
         dataInstance = DataInterface()
 
@@ -46,24 +72,28 @@ class ViewOrders : AppCompatActivity() {
         val order= dataInstance.getApiService().Getdata(token = "Bearer ${sessionManager.fetchAuthToken()}")
 
 
-        if (order != null) {
-            order.enqueue(object : Callback<orderFormat> {
-                override fun onResponse(call: Call<orderFormat>, response: Response<orderFormat>) {
-                    val order = response.body()
-                    Log.d("AOM DIALS", "API call successful. Response body: $order")
+        order.enqueue(object : Callback<orderFormat> {
+            override fun onResponse(call: Call<orderFormat>, response: Response<orderFormat>) {
+                val order = response.body()
+                Log.d("AOM DIALS", "API call successful. Response body: $order")
 
-                    adapter = RecyclerViewDataAdapter(recyclerView,this@ViewOrders,order!!.orders)
+                adapter = RecyclerViewDataAdapter(recyclerView,this@ViewOrders,order!!.orders)
 
-                    recyclerView.adapter = adapter
+                recyclerView.adapter = adapter
 
-                    Log.d("AOM DIALS", "Recycler View Adapter : ${recyclerView.adapter} ")
-                }
+                Log.d("AOM DIALS", "Recycler View Adapter : ${recyclerView.adapter} ")
+            }
 
-                override fun onFailure(call: Call<orderFormat>, t: Throwable) {
-                    Log.d("AOM DIALS", "API call failed: $t")
-                }
+            override fun onFailure(call: Call<orderFormat>, t: Throwable) {
+                Log.d("AOM DIALS", "API call failed: $t")
+            }
 
-            })
-        }
+        })
+    }
+
+    @Deprecated("Deprecated in Java")
+    override fun onBackPressed() {
+        val intent = Intent(this@ViewOrders, Home_Activity::class.java)
+        startActivity(intent)
     }
 }

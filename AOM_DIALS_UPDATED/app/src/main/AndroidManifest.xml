@@ -15,6 +15,12 @@
         android:theme="@style/Theme.AOM_DIALS_APP"
         tools:targetApi="31">
         <activity
+            android:name=".orders.user_Profile"
+            android:exported="false" />
+        <activity
+            android:name=".orders.creatingWorkOrder"
+            android:exported="false" />
+        <activity
             android:name=".orders.Update_ModifyOrder"
             android:exported="false" />
         <activity

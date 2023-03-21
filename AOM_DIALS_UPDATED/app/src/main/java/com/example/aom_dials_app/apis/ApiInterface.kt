@@ -19,6 +19,9 @@ interface ApiInterface {
     //ADD END POINT OF URL TO THE GET ANNOTATION
     fun Getdata(@Header("Authorization")token: String):Call<orderFormat>
 
+    @GET("/api/user/loggeduser")
+    fun GetLoggedUser(@Header("Authorization")token: String):Call<loggedUser>
+
     @POST("/api/order/createOrder")
     fun createOrder(@Header("Authorization")token: String,@Body request: newOrderCreationRequest):Call<createOrderResponse>
 

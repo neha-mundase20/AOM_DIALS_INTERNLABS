@@ -8,7 +8,7 @@
     <string name="order_date">Order Date:</string>
     <string name="base_color">Base Color:</string>
     <string name="party_name">Party Name</string>
-    <string name="extra_quantity">Extra Quantity %:</string>
+    <string name="extra_quantity">Extra Quantity %</string>
     <string name="finish">Finish:</string>
     <string name="generate">Generate</string>
     <string name="department_wise_statistics">Department wise statistics:</string>
@@ -16,18 +16,12 @@
     <string name="choose_image">Choose Image</string>
     <string name="select">Select</string>
     <string name="extra_features">Extra features</string>
-    <string name="my_dashboard">My Dashboard</string>
     <string name="create_new_order">Create New order</string>
     <string name="view_orders">View Orders</string>
     <string name="order_statistics">Order Statistics</string>
     <string name="hello">Hello!</string>
     <string name="home">Home</string>
     <string name="logout">Logout</string>
-    <string name="open">Open</string>
-    <string name="close">Close</string>
-    <string name="create_new_order_nav_drawer">Create New Order</string>
-    <string name="view_orders_nav_drawer">View Orders</string>
-    <string name="order_statistics_nav_drawer">Order Statistics</string>
     <string name="welcome_back">Welcome Back!</string>
     <string name="name">Name</string>
     <string name="email">Email</string>
@@ -86,9 +80,11 @@
     <string name="Gp">GP:</string>
     <string name="updating_the_order">Updating the order:</string>
     <string name="update">UPDATE</string>
-    <string name="welcome">WELCOME!</string>
     <string name="admin">admin</string>
     <string name="manager">manager</string>
+    <string name="profile">Profile</string>
+    <string name="newOrder">+</string>
+    <string name="my_profile">My Profile</string>
 
 
     <string-array name="material_array">
@@ -118,6 +114,34 @@
         <item>Assenbly 1</item>
         <item>Assembly 2</item>
         <item>Dispatch</item>
+    </string-array>
+
+    <string-array name="base_feature_array">
+        <item>Printed</item>
+        <item>Embossed</item>
+        <item>Digital Printed</item>
+        <item>Deplating</item>
+        <item>T/Tone</item>
+    </string-array>
+
+    <string-array name="extra_feature_array">
+        <item>Zari</item>
+        <item>Diamonds</item>
+        <item>Movado</item>
+    </string-array>
+
+    <string-array name="mechanical_feature_array">
+        <item>Turning</item>
+        <item>T-Window</item>
+        <item>Date</item>
+        <item>Day Date</item>
+        <item>Real Multifunction</item>
+    </string-array>
+
+    <string-array name="number_type_array">
+        <item>Eddy</item>
+        <item>Printed</item>
+        <item>Applicated</item>
     </string-array>
 
 </resources>

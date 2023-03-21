@@ -16,6 +16,7 @@ import com.example.aom_dials_app.R
 import com.example.aom_dials_app.auth.SessionManager
 import com.example.aom_dials_app.apis.orderUpdationRequest
 import com.example.aom_dials_app.apis.updateOrderResponse
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import retrofit2.Call
 import retrofit2.Response
 import java.util.*
@@ -37,6 +38,29 @@ class Update_ModifyOrder : AppCompatActivity() {
 
         Material_Dropdown()
         deptDropdown()
+        baseFeatureDropdown()
+        extraFeatureDropdown()
+        mechFeatureDropdown()
+        numberTypeDropdown()
+
+        val bottomNavigationView=findViewById<BottomNavigationView>(R.id.bottomNavigationView)
+        bottomNavigationView.setOnNavigationItemSelectedListener {
+            when(it.itemId){
+                R.id.ic_home -> {
+                    startActivity(Intent(this@Update_ModifyOrder,Home_Activity::class.java))
+                }
+                R.id.ic_orderStats -> {
+                    startActivity(Intent(this@Update_ModifyOrder,Statistics::class.java))
+                }
+                R.id.ic_viewOrders -> {
+                    startActivity(Intent(this@Update_ModifyOrder,ViewOrders::class.java))
+                }
+                R.id.ic_Profile -> {
+                    startActivity(Intent(this@Update_ModifyOrder, user_Profile::class.java))
+                }
+            }
+            true
+        }
 
         val bundle = intent.extras
         val orderName = bundle?.getString("orderName")
@@ -62,22 +86,35 @@ class Update_ModifyOrder : AppCompatActivity() {
         modelnumber.setText(modelNumber.toString())
 
         val orderdate = findViewById<TextView>(R.id.displayDate)
-        orderdate.setText(orderDate)
+        if (orderDate != null) {
+            orderdate.setText(orderDate.substringBefore("T"))
+        }
 
         val partyname = findViewById<EditText>(R.id.partyNameInput)
         partyname.setText(partyName)
 
-        val basefeatures = findViewById<EditText>(R.id.basefeaturesInput)
-        basefeatures.setText(baseFeature)
+        val materialSpinner=findViewById<Spinner>(R.id.materialDropdown)
+        val materialAdapter = ArrayAdapter.createFromResource(this, R.array.material_array,android.R.layout.simple_spinner_item)
+        materialSpinner.setSelection(materialAdapter.getPosition(material))
+
+        val deptSpinner=findViewById<Spinner>(R.id.deptDropdown)
+        val deptAdapter = ArrayAdapter.createFromResource(this, R.array.dept_array,android.R.layout.simple_spinner_item)
+        deptSpinner.setSelection(deptAdapter.getPosition(deptName))
+
+        val baseFeaturesSpinner=findViewById<Spinner>(R.id.baseFeaturesDropdown)
+        val baseFeatureAdapter = ArrayAdapter.createFromResource(this, R.array.base_feature_array,android.R.layout.simple_spinner_item)
+        baseFeaturesSpinner.setSelection(baseFeatureAdapter.getPosition(baseFeature))
 
         val extraqty = findViewById<EditText>(R.id.extraQtyText)
         extraqty.setText(extraQty.toString())
 
-        val extrafeatures = findViewById<EditText>(R.id.extraFeaturesInput)
-        extrafeatures.setText(extraFeatures)
+        val extraFeaturesSpinner=findViewById<Spinner>(R.id.extraFeaturesDropdown)
+        val extraFeaturesAdapter = ArrayAdapter.createFromResource(this, R.array.extra_feature_array,android.R.layout.simple_spinner_item)
+        extraFeaturesSpinner.setSelection(extraFeaturesAdapter.getPosition(extraFeatures))
 
-        val mechfeatures = findViewById<EditText>(R.id.mechfeaturesInput)
-        mechfeatures.setText(mechanicalFeatures)
+        val mechfeaturesSpinner = findViewById<Spinner>(R.id.mechFeaturesDropdown)
+        val mechFeaturesAdapter=ArrayAdapter.createFromResource(this,R.array.mechanical_feature_array,android.R.layout.simple_spinner_item)
+        mechfeaturesSpinner.setSelection(mechFeaturesAdapter.getPosition(mechanicalFeatures))
 
         val Size = findViewById<EditText>(R.id.sizeInput)
         Size.setText(size.toString())
@@ -85,8 +122,9 @@ class Update_ModifyOrder : AppCompatActivity() {
         val PkgQty = findViewById<EditText>(R.id.pkgQtyInput)
         PkgQty.setText(pkgQty.toString())
 
-        val NumberType = findViewById<EditText>(R.id.numberType)
-        NumberType.setText(numberType)
+        val numberTypeSpinner=findViewById<Spinner>(R.id.numberTypeDropdown)
+        val numberTypeAdapter = ArrayAdapter.createFromResource(this, R.array.number_type_array,android.R.layout.simple_spinner_item)
+        numberTypeSpinner.setSelection(numberTypeAdapter.getPosition(numberType))
 
         val OtherColorIndex = findViewById<EditText>(R.id.otherColorIndex)
         OtherColorIndex.setText(otherclrIndex.toString())
@@ -106,7 +144,7 @@ class Update_ModifyOrder : AppCompatActivity() {
 
     fun Material_Dropdown() {
         val spinner: Spinner = findViewById(R.id.materialDropdown)
-// Create an ArrayAdapter using the string array and a default spinner layout
+        // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter.createFromResource(
             this,
             R.array.material_array,
@@ -125,6 +163,54 @@ class Update_ModifyOrder : AppCompatActivity() {
         ArrayAdapter.createFromResource(
             this,
             R.array.dept_array,
+            android.R.layout.simple_spinner_item
+        ).also { adapter ->
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            spinner.adapter = adapter
+        }
+    }
+
+    fun baseFeatureDropdown(){
+        val spinner: Spinner = findViewById(R.id.baseFeaturesDropdown)
+        ArrayAdapter.createFromResource(
+            this,
+            R.array.base_feature_array,
+            android.R.layout.simple_spinner_item
+        ).also { adapter ->
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            spinner.adapter = adapter
+        }
+    }
+
+    fun extraFeatureDropdown(){
+        val spinner: Spinner = findViewById(R.id.extraFeaturesDropdown)
+        ArrayAdapter.createFromResource(
+            this,
+            R.array.extra_feature_array,
+            android.R.layout.simple_spinner_item
+        ).also { adapter ->
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            spinner.adapter = adapter
+        }
+    }
+
+    fun mechFeatureDropdown(){
+        val spinner: Spinner = findViewById(R.id.mechFeaturesDropdown)
+        ArrayAdapter.createFromResource(
+            this,
+            R.array.mechanical_feature_array,
+            android.R.layout.simple_spinner_item
+        ).also { adapter ->
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            spinner.adapter = adapter
+        }
+    }
+
+    fun numberTypeDropdown(){
+        val spinner: Spinner = findViewById(R.id.numberTypeDropdown)
+        ArrayAdapter.createFromResource(
+            this,
+            R.array.number_type_array,
             android.R.layout.simple_spinner_item
         ).also { adapter ->
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
@@ -168,100 +254,114 @@ class Update_ModifyOrder : AppCompatActivity() {
 
         ProgressBar.visibility = View.VISIBLE
 
-        val modelNumber= findViewById<EditText>(R.id.modelInput).editableText.toString().toInt()
-        val Date = findViewById<View>(R.id.displayDate) as TextView
-        val orderDate = Date.text.toString()
-        val partyName=findViewById<EditText>(R.id.partyNameInput).editableText.toString()
-        val baseFeatures=findViewById<EditText>(R.id.basefeaturesInput).editableText.toString()
-        val extraQty=findViewById<EditText>(R.id.extraQtyText).editableText.toString().toInt()
-        val extraFeatures=findViewById<EditText>(R.id.extraFeaturesInput).editableText.toString()
-        val mechfeatures=findViewById<EditText>(R.id.mechfeaturesInput).editableText.toString()
-        val size=findViewById<EditText>(R.id.sizeInput).editableText.toString().toDouble()
-        val pkgQty=findViewById<EditText>(R.id.pkgQtyInput).editableText.toString().toInt()
-        val numberType=findViewById<EditText>(R.id.numberType).editableText.toString()
-        val otherColorIndex=findViewById<EditText>(R.id.otherColorIndex).editableText.toString().toInt()
-        val orderName=findViewById<EditText>(R.id.orderName).editableText.toString()
-        val copper=findViewById<EditText>(R.id.copper).editableText.toString().toInt()
-        val NP=findViewById<EditText>(R.id.NP).editableText.toString().toInt()
-        val GP=findViewById<EditText>(R.id.GP).editableText.toString().toInt()
+        try{
+            val modelNumber= findViewById<EditText>(R.id.modelInput).editableText.toString().toInt()
+            val Date = findViewById<View>(R.id.displayDate) as TextView
+            val orderDate = Date.text.toString()
+            val partyName=findViewById<EditText>(R.id.partyNameInput).editableText.toString()
+            val extraQty=findViewById<EditText>(R.id.extraQtyText).editableText.toString().toInt()
 
-        val materialSpinner=findViewById<Spinner>(R.id.materialDropdown)
-        val material = materialSpinner.getSelectedItem().toString()
+            val extraFeaturesSpinner=findViewById<Spinner>(R.id.extraFeaturesDropdown)
+            val extraFeatures=extraFeaturesSpinner.getSelectedItem().toString()
 
-        val deptSpinner=findViewById<Spinner>(R.id.deptDropdown)
-        val department = deptSpinner.getSelectedItem().toString()
+            val baseFeaturesSpinner=findViewById<Spinner>(R.id.baseFeaturesDropdown)
+            val baseFeatures=baseFeaturesSpinner.getSelectedItem().toString()
+
+            val mechfeaturesSpinner=findViewById<Spinner>(R.id.mechFeaturesDropdown)
+            val mechfeatures=mechfeaturesSpinner.getSelectedItem().toString()
+
+            val numberTypeSpinner=findViewById<Spinner>(R.id.numberTypeDropdown)
+            val numberType=numberTypeSpinner.getSelectedItem().toString()
+
+            val size=findViewById<EditText>(R.id.sizeInput).editableText.toString().toDouble()
+            val pkgQty=findViewById<EditText>(R.id.pkgQtyInput).editableText.toString().toInt()
+            val otherColorIndex=findViewById<EditText>(R.id.otherColorIndex).editableText.toString().toInt()
+            val orderName=findViewById<EditText>(R.id.orderName).editableText.toString()
+            val copper=findViewById<EditText>(R.id.copper).editableText.toString().toInt()
+            val NP=findViewById<EditText>(R.id.NP).editableText.toString().toInt()
+            val GP=findViewById<EditText>(R.id.GP).editableText.toString().toInt()
+
+            val materialSpinner=findViewById<Spinner>(R.id.materialDropdown)
+            val material = materialSpinner.getSelectedItem().toString()
+
+            val deptSpinner=findViewById<Spinner>(R.id.deptDropdown)
+            val department = deptSpinner.getSelectedItem().toString()
 
 
-        sessionManager = SessionManager(this)
+            sessionManager = SessionManager(this)
 
-        val token = sessionManager.fetchAuthToken()
+            val token = sessionManager.fetchAuthToken()
 
-        Log.d("AOM DIALS", "Auth token fetched: $token")
+            Log.d("AOM DIALS", "Auth token fetched: $token")
 
-        dataInstance = DataInterface()
+            dataInstance = DataInterface()
 
-        val update = dataInstance.getApiService().updateOrder(
-            token = "Bearer ${sessionManager.fetchAuthToken()}",
-            orderUpdationRequest(orderId,GP,NP,copper,department,
-                extraQty,baseFeatures,extraFeatures,mechfeatures,material,
+            val update = dataInstance.getApiService().updateOrder(
+                token = "Bearer ${sessionManager.fetchAuthToken()}",
+                orderUpdationRequest(orderId,GP,NP,copper,department,
+                    extraQty,baseFeatures,extraFeatures,mechfeatures,material,
+                    modelNumber,numberType,orderDate,orderName,otherColorIndex,partyName,pkgQty,size)
+            )
+
+            //Log messages for verifying the retrofit call
+
+            val updateRequest = orderUpdationRequest(orderId,GP,NP,copper,department,extraQty,baseFeatures,extraFeatures,mechfeatures,material,
                 modelNumber,numberType,orderDate,orderName,otherColorIndex,partyName,pkgQty,size)
-        )
+            Log.d("updateOrder", "updateOrderRequest: $updateRequest")
 
-        //Log messages for verifying the retrofit call
+            val apiService = dataInstance.getApiService()
+            Log.d("updateOrder", "ApiService: $apiService")
 
-        val updateRequest = orderUpdationRequest(orderId,GP,NP,copper,department,extraQty,baseFeatures,extraFeatures,mechfeatures,material,
-            modelNumber,numberType,orderDate,orderName,otherColorIndex,partyName,pkgQty,size)
-        Log.d("updateOrder", "updateOrderRequest: $updateRequest")
+            val updateReq = apiService.updateOrder(token = "Bearer ${sessionManager.fetchAuthToken()}",updateRequest)
+            Log.d("updateOrder", "$updateReq")
 
-        val apiService = dataInstance.getApiService()
-        Log.d("updateOrder", "ApiService: $apiService")
+            update.enqueue(object : retrofit2.Callback<updateOrderResponse> {
 
-        val updateReq = apiService.updateOrder(token = "Bearer ${sessionManager.fetchAuthToken()}",updateRequest)
-        Log.d("updateOrder", "$updateReq")
+                override fun onResponse(
+                    call: Call<updateOrderResponse>,
+                    response: Response<updateOrderResponse>,
+                ) {
+                    val Response = response.body()
+                    if (Response != null) {
+                        if (Response.status == "Success") {
 
-        update.enqueue(object : retrofit2.Callback<updateOrderResponse> {
+                            Log.d("AOM DIALS", "Order updated successfully!")
 
-            override fun onResponse(
-                call: Call<updateOrderResponse>,
-                response: Response<updateOrderResponse>,
-            ) {
-                val Response = response.body()
-                if (Response != null) {
-                    if (Response.status == "Success") {
+                            ProgressBar.visibility = View.GONE
 
-                        Log.d("AOM DIALS", "Order updated successfully!")
+                            Toast.makeText(this@Update_ModifyOrder, Response.message, Toast.LENGTH_SHORT)
+                                .show()
 
-                        ProgressBar.visibility = View.GONE
+                            val intent = Intent(this@Update_ModifyOrder, Home_Activity::class.java)
 
-                        Toast.makeText(this@Update_ModifyOrder, Response.message, Toast.LENGTH_SHORT)
-                            .show()
+                            startActivity(intent)
+                        } else {
+                            Log.d("AOM DIALS", "Order updation Failed!")
 
-                        val intent = Intent(this@Update_ModifyOrder, Home_Activity::class.java)
+                            ProgressBar.visibility = View.GONE
 
-                        startActivity(intent)
-                    } else {
-                        Log.d("AOM DIALS", "Order updation Failed!")
-
-                        ProgressBar.visibility = View.GONE
-
-                        Toast.makeText(this@Update_ModifyOrder, Response.message, Toast.LENGTH_SHORT)
-                            .show()
+                            Toast.makeText(this@Update_ModifyOrder, Response.message, Toast.LENGTH_SHORT)
+                                .show()
+                        }
                     }
                 }
-            }
 
-            override fun onFailure(call: Call<updateOrderResponse>, t: Throwable) {
+                override fun onFailure(call: Call<updateOrderResponse>, t: Throwable) {
 
-                ProgressBar.visibility = View.GONE
+                    ProgressBar.visibility = View.GONE
 
-                Toast.makeText(
-                    this@Update_ModifyOrder,
-                    "Error! Please try again",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
-        })
+                    Toast.makeText(
+                        this@Update_ModifyOrder,
+                        "Error! Please try again",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            })
 
+        }catch (e : Exception){
+            ProgressBar.visibility= View.GONE
+            Toast.makeText(this@Update_ModifyOrder, "Please fill all the fields!", Toast.LENGTH_SHORT).show()
+        }
     }
 
 

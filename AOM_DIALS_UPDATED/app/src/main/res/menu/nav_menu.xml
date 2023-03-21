@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/ic_home"
+        android:icon="@drawable/baseline_home_24"
+        android:title="@string/home"/>
+
+    <item
+        android:id="@+id/ic_orderStats"
+        android:icon="@drawable/baseline_query_stats_24"
+        android:title="@string/order_statistics"/>
+
+    <item
+        android:id="@+id/ic_viewOrders"
+        android:icon="@drawable/baseline_view_day_24"
+        android:title="@string/view_orders"/>
+
+    <item
+        android:id="@+id/ic_Profile"
+        android:icon="@drawable/baseline_person_24"
+        android:title="@string/profile"/>
+</menu>
